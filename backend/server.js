@@ -14,9 +14,8 @@ const app = express();
 
 // --- CONFIGURATION CORS ---
 app.use(cors({
-    origin: "https://no-flop-studio.vercel.app",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"]
+    origin: "*", // Autorise toutes les sources pour le test
+    methods: ["GET", "POST"]
 }));
 
 app.use(express.json());
