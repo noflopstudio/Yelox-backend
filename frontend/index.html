@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Flop Studio</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Centralisation de la logique -->
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ec4899">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063821.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://cdn-icons-png.flaticon.com/512/3063/3063821.png">
+</head>
+
+<body class="bg-[#0b0f19] text-gray-300 antialiased scroll-smooth">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+        }
+
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .glass-card {
+            background: rgba(19, 27, 46, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .shimmer-effect {
+            background: linear-gradient(90deg, #0b0f19 25%, #161e31 50%, #0b0f19 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+            border-radius: 1rem;
+        }
+    </style>
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-[#0b0f19]/80 backdrop-blur-md border-b border-gray-900/60 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+
+            <a href="#" class="flex items-center gap-3 text-white font-black tracking-wider text-sm uppercase group">
+                <span
+                    class="h-8 w-8 rounded-xl bg-pink-500/20 flex items-center justify-center overflow-hidden transition-all duration-300 ease-in-out group-hover:scale-105">
+                    <img src="no flop logo.png" alt="Logo YELOX" class="w-6 h-6 object-contain">
+                </span>
+                YELOX <span class="font-normal text-gray-600 transition-colors duration-300 group-hover:text-gray-400">|
+                    No Flop </span>
+            </a>
+            <nav
+                class="hidden lg:flex items-center space-x-6 text-xs font-medium tracking-wide uppercase text-gray-400">
+                <button id="installBtn" onclick="installerApp()"
+                    class="cursor-pointer hover:text-emerald-400 transition-colors bg-transparent border-0 p-0 text-xs tracking-wide uppercase flex items-center text-emerald-400"
+                    title="Télécharger l'application">
+                    <i class="fa-solid fa-download text-sm"></i>
+                </button>
+
+                <a href="#about" class="hover:text-pink-400 transition-colors">ℹ️ À propos</a>
+                <a href="#services" class="hover:text-pink-400 transition-colors">🔥 Services</a>
+                <a href="#blog" class="hover:text-pink-400 transition-colors">📝 Blog</a>
+                <a href="#faq" class="hover:text-pink-400 transition-colors">FAQ</a>
+                <a href="#contact" class="hover:text-pink-400 transition-colors">📩 Contact</a>
+                <a href="https://wa.me/2250586695114" target="_blank"
+                    class="hover:text-pink-400 transition-colors font-bold text-pink-400 animate-pulse flex items-center gap-1.5">
+                    <i class="fa-brands fa-whatsapp text-green-500"></i> 🤝 Partenaires
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <span id="installBtnMobile" onclick="installerApp()"
+                    class="cursor-pointer text-xs font-mono bg-gray-900 border border-gray-800 px-3 py-1.5 rounded-full text-gray-400 hover:text-white transition hidden items-center gap-2 lg:hidden">
+                    <i class="fa-solid fa-download text-pink-400"></i> Installer
+                </span>
+
+                <button id="authButton" onclick="location.href='#login-section'"
+                    class="flex items-center gap-2 text-xs font-mono bg-gray-900 border border-gray-800 px-4 py-2 rounded-full hover:text-pink-400 transition">
+                    <i class="fa-solid fa-user-lock"></i> <span id="authButtonText">Se connecter</span>
+                </button>
+                <a href="#contact"
+                    class="text-xs font-mono text-pink-400 hover:text-pink-300 transition lg:hidden">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-28">
+
+        <section id="login-section" class="max-w-4xl mx-auto px-6 mb-16">
+            <div
+                class="glass-card p-8 rounded-3xl border border-pink-500/20 bg-gradient-to-br from-gray-900/50 via-gray-900/30 to-transparent">
+                <div class="mb-6 text-center">
+                    <span
+                        class="text-[10px] font-mono tracking-widest uppercase text-pink-500 bg-pink-500/10 px-2.5 py-0.5 rounded-full">
+                        Accès au Système
+                    </span>
+                    <h3 class="text-xl font-bold text-white mt-4 mb-2">Authentification YELOX Core</h3>
+                    <p class="text-gray-500 text-xs max-w-md mx-auto leading-relaxed">
+                        Connectez-vous à votre session No Flop Studio pour synchroniser votre API et débloquer les
+                        services et générateurs.
+                    </p>
+                </div>
+
+                <div class="max-w-md mx-auto space-y-4">
+                    <button disabled
+                        class="w-full bg-gray-800 text-gray-500 cursor-not-allowed text-xs font-bold py-3.5 rounded-2xl transition-all flex items-center justify-center gap-3 border border-gray-700">
+                        <i class="fa-brands fa-google text-gray-600"></i> <span>Google (Bientôt disponible)</span>
+                    </button>
+
+                    <div class="flex items-center gap-3 py-2">
+                        <hr class="flex-grow border-gray-800">
+                        <span class="text-[9px] text-gray-500 font-mono uppercase">Ou utilisez vos identifiants</span>
+                        <hr class="flex-grow border-gray-800">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-mono tracking-wider text-gray-500 uppercase block mb-2">Adresse
+                            Email</label>
+                        <input type="email" id="loginEmail" placeholder="nom@exemple.com"
+                            class="w-full text-xs bg-gray-900/80 border border-gray-800 p-3.5 rounded-2xl text-white focus:outline-none focus:border-pink-500/50 transition">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-mono tracking-wider text-gray-500 uppercase block mb-2">Mot de
+                            passe</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••"
+                            class="w-full text-xs bg-gray-900/80 border border-gray-800 p-3.5 rounded-2xl text-white focus:outline-none focus:border-pink-500/50 transition">
+                    </div>
+
+                    <button onclick="seConnecter()"
+                        class="w-full bg-pink-500/20 border border-pink-500/40 text-pink-400 hover:bg-pink-500 hover:text-white text-xs font-bold py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-lock-open text-xs"></i> <span>Valider la connexion</span>
+                    </button>
+
+                    <p class="text-[10px] text-gray-600 font-mono text-center mt-4">
+                        Pas encore de compte ? <a href="#contact" class="text-pink-400 hover:underline">Contactez
+                            l'administration</a> pour obtenir vos accès.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div id="noAuthMessage" class="max-w-4xl mx-auto px-6 mb-20 text-center">
+            <div class="glass-card p-12 rounded-3xl border border-gray-800 bg-gray-900/20">
+                <i class="fa-solid fa-lock text-4xl text-pink-400 mb-6 animate-bounce"></i>
+                <h2 class="text-xl font-bold text-white mb-3">Accès restreint</h2>
+                <p class="text-gray-500 text-xs max-w-sm mx-auto leading-relaxed mb-8">
+                    Vous devez être connecté à l'écosystème No Flop Studio pour accéder aux générateurs et aux services
+                    du noyau YELOX.
+                </p>
+                <a href="#login-section"
+                    class="text-xs font-mono bg-pink-500/10 border border-pink-500/50 text-pink-400 px-6 py-3.5 rounded-2xl hover:bg-pink-500 hover:text-white transition-all inline-flex items-center gap-2">
+                    <i class="fa-solid fa-key"></i> Aller à la connexion
+                </a>
+            </div>
+        </div>
+
+        <div id="protectedContent" class="hidden">
+
+            <section class="max-w-4xl mx-auto px-6 mb-16">
+                <div
+                    class="glass-card p-8 rounded-3xl border border-yellow-500/10 bg-gradient-to-r from-yellow-500/5 via-transparent to-transparent flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div>
+                        <span
+                            class="text-[10px] font-mono tracking-widest uppercase text-yellow-500 bg-yellow-500/10 px-2.5 py-0.5 rounded-full">
+                            Exclusivité
+                        </span>
+                        <h3 class="text-lg font-bold text-white mt-3 mb-1">YELOX Premium arrive très bientôt !</h3>
+                        <p class="text-gray-500 text-xs max-w-md">
+                            Débloquez des modèles exclusifs, une meilleure IA (Modèle Pro), l'exportation PDF et un
+                            historique illimité.
+                        </p>
+                    </div>
+                    <a href="#contact"
+                        class="text-xs font-mono bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 px-4 py-2.5 rounded-2xl hover:bg-yellow-500 hover:text-black transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-sparkles"></i> S'inscrire sur liste d'attente
+                    </a>
+                </div>
+            </section>
+            <section class="max-w-4xl mx-auto px-6 mb-20 bg-gray-900 p-8 rounded-3xl border border-gray-800">
+                <div class="text-center space-y-4 mb-10">
+                    <span
+                        class="text-xs font-mono tracking-widest uppercase text-pink-500 bg-pink-500/10 px-3 py-1 rounded-full">
+                        Générateur de description
+                    </span>
+                    <h1 class="text-3xl md:text-5xl font-black uppercase tracking-wider text-white pt-4 leading-tight">
+                        Optimisez vos <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">descriptions</span>
+                    </h1>
+                    <p class="text-gray-400 text-sm max-w-2xl mx-auto leading-relaxed">
+                        Utilisez le noyau YELOX pour éliminer le hasard. Indiquez le nom de votre produit et sa
+                        catégorie, nous créons le reste.
+                    </p>
+                </div>
+
+                <div
+                    class="max-w-2xl mx-auto mb-8 glass-card p-5 rounded-2xl border border-pink-500/10 flex justify-between items-center text-xs bg-gray-950">
+                    <div>
+                        <span class="font-mono text-gray-500">Protection globale :</span> <b class="text-white">1
+                            500</b> / mois max
+                    </div>
+                    <div class="text-right">
+                        <span class="font-mono text-gray-500">Quota utilisateur :</span>
+                        <span class="font-mono font-bold text-pink-400" id="quotaDisplay">5 / 5 restantes</span>
+                    </div>
+                </div>
+
+                <div class="max-w-2xl mx-auto glass-card p-8 rounded-3xl space-y-6 bg-gray-950 border border-gray-800">
+                    <div
+                        class="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-gray-900/60 border border-gray-800">
+                        <div>
+                            <span class="text-xs font-mono text-gray-500 block mb-0.5">Type de génération</span>
+                            <span class="text-xs text-gray-400 leading-relaxed">Choisissez le format pour pousser vers
+                                l'abonnement Premium.</span>
+                        </div>
+                        <div class="flex gap-2 w-full md:w-auto">
+                            <button onclick="setMode('rapide')" id="modeRapide"
+                                class="flex-1 md:flex-none text-xs font-mono bg-pink-500/10 border border-pink-500 text-pink-400 px-4 py-2.5 rounded-xl transition">
+                                ⚡ Rapide <span class="text-[9px] opacity-75 block">(Gratuit)</span>
+                            </button>
+                            <button onclick="setMode('detaille')" id="modeDetaille"
+                                class="flex-1 md:flex-none text-xs font-mono bg-gray-900/60 border border-gray-800 text-gray-500 hover:text-white px-4 py-2.5 rounded-xl transition">
+                                📖 Détaillé <span class="text-[9px] opacity-50 block">(Premium)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                class="text-[10px] font-mono tracking-wider text-gray-500 uppercase block mb-2">Module
+                                YELOX</label>
+                            <select id="moduleSelect"
+                                class="w-full text-xs bg-gray-900 border border-gray-800 p-3.5 rounded-2xl text-gray-300 focus:outline-none focus:border-pink-500 transition">
+                                <option value="video">Scénario et Vidéo</option>
+                                <option value="marketing">Marketing Digital</option>
+                                <option value="musique">Production Musicale</option>
+                                <option value="dev">Back-end & Dev</option>
+                                <option value="design">Infographie</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-mono tracking-wider text-gray-500 uppercase block mb-2">Ton
+                                de la réponse</label>
+                            <select id="toneSelect"
+                                class="w-full text-xs bg-gray-900 border border-gray-800 p-3.5 rounded-2xl text-gray-300 focus:outline-none focus:border-pink-500 transition">
+                                <option value="Professionnel">Professionnel (Abidjan Business)</option>
+                                <option value="Créatif">Créatif (Artiste & Innovation)</option>
+                                <option value="Technique">Technique (Expert & Précis)</option>
+                                <option value="Simple">Simple (Clair & Direct)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-mono tracking-wider text-gray-500 uppercase block mb-2">Poser une
+                            question à YELOX</label>
+                        <textarea id="userInput" placeholder="Décrivez votre besoin ou posez votre question ici..."
+                            rows="4"
+                            class="w-full text-xs bg-gray-900 border border-gray-800 p-3.5 rounded-2xl text-white focus:outline-none focus:border-pink-500/50 transition resize-none"></textarea>
+                    </div>
+
+                    <button id="submitBtn" onclick="envoyerRequeteComplete()"
+                        class="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-xs font-bold py-4 rounded-2xl transition flex items-center justify-center gap-3 shadow-xl shadow-pink-500/10">
+                        <i class="fa-solid fa-paper-plane text-sm"></i> <span>Exécuter la requête</span>
+                    </button>
+
+                    <div id="resultContainer" class="hidden mt-6 pt-6 border-t border-gray-900/60 space-y-4">
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="text-xs font-mono tracking-wider text-pink-500">Résultat généré</span>
+                                <span id="latencyDisplay" class="text-[10px] font-mono text-gray-600"></span>
+                            </div>
+
+                            <!-- Loader stylisé (scintillement) -->
+                            <div id="yeloxLoader" class="hidden space-y-3">
+                                <div class="shimmer-effect h-4 w-3/4"></div>
+                                <div class="shimmer-effect h-4 w-full"></div>
+                                <div class="shimmer-effect h-4 w-5/6"></div>
+                            </div>
+
+                            <div id="outputWrapper">
+                                <div id="testOutput"
+                                    class="p-6 bg-black border border-gray-900 rounded-2xl min-h-[120px] text-xs text-gray-400 leading-relaxed max-h-60 overflow-y-auto">
+                                    Aucune requête en cours.
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 pt-2">
+
+
+
+                                <!-- 🎙️ CHOIX VOIX YELOX -->
+                                <select onchange="lireReponse(this.value)"
+                                    class="text-xs font-mono bg-gray-900 text-gray-300 px-2 py-2 rounded-xl border border-gray-800">
+                                    <option value="auto">Auto</option>
+
+                                    <option value="fr1">FR 1</option>
+                                    <option value="fr2">FR 2</option>
+                                    <option value="fr3">FR 3</option>
+                                    <option value="fr4">FR 4</option>
+                                    <option value="fr5">FR 5</option>
+
+                                    <option value="en1">EN 1</option>
+                                    <option value="en2">EN 2</option>
+                                    <option value="en3">EN 3</option>
+                                    <option value="en4">EN 4</option>
+                                    <option value="en5">EN 5</option>
+                                </select>
+
+                                <button onclick="copierReponse()"
+                                    class="text-xs font-mono bg-gray-900 hover:bg-gray-800 px-3 py-2 rounded-xl text-gray-400 hover:text-white transition">
+                                    <i class="fa-regular fa-copy"></i> Copier
+                                </button>
+
+                                <button onclick="exporterEnTexte()"
+                                    class="text-xs font-mono bg-gray-900 hover:bg-gray-800 px-3 py-2 rounded-xl text-blue-400 hover:text-white transition">
+                                    <i class="fa-solid fa-file-export"></i> Télécharger .txt
+                                </button>
+
+                                <button onclick="partagerReponse()"
+                                    class="text-xs font-mono bg-gray-900 hover:bg-gray-800 px-3 py-2 rounded-xl text-green-400 transition">
+                                    <i class="fa-brands fa-whatsapp"></i> Partager
+                                </button>
+
+                                <button onclick="exportPDF()"
+                                    class="text-xs font-mono bg-gray-900 hover:bg-gray-800 px-3 py-2 rounded-xl text-pink-400 transition">
+                                    <i class="fa-solid fa-file-arrow-down"></i> Export PDF
+                                </button>
+
+                                <button onclick="lireReponse()"
+                                    class="text-xs font-mono bg-gray-900 hover:bg-gray-800 px-3 py-2 rounded-xl text-yellow-400 transition">
+                                    <i class="fa-solid fa-volume-high"></i> Écouter
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </div>
+
+        <section class="max-w-4xl mx-auto mb-20">
+            <div class="glass-card p-8 rounded-3xl border border-gray-800/80">
+
+                <h3 class="text-sm font-bold text-white mb-6 flex items-center gap-3">
+                    <i class="fa-solid fa-clock-rotate-left text-pink-500"></i>
+                    Historique d'utilisation
+                </h3>
+
+                <!-- 📜 CONTAINER HISTORIQUE YELOX -->
+                <div class="space-y-3" id="historiqueContainer">
+
+                    <p class="text-xs text-gray-500 italic" id="historiqueEmpty">
+                        Aucune utilisation précédente pour le moment.
+                    </p>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="about" class="border-t border-gray-900/60 py-24">
+            <div class="max-w-4xl mx-auto px-6 text-center space-y-12">
+                <div class="space-y-3">
+                    <span
+                        class="text-xs font-mono tracking-widest uppercase text-pink-500 bg-pink-500/10 px-3 py-1 rounded-full">
+                        L'Origine & L'Expertise
+                    </span>
+                    <h2 class="text-3xl md:text-4xl font-black uppercase tracking-wider text-white pt-4">
+                        ℹ️ À propos de YELOX & No Flop Studio
+                    </h2>
+                </div>
+
+                <div
+                    class="space-y-8 text-sm md:text-base leading-relaxed text-gray-400 text-justify md:text-center max-w-3xl mx-auto">
+                    <p>
+                        Né à Abidjan et fruit de plus de neuf années d'expertise et de passion dans le design
+                        graphique, l'infographie polyvalente et la communication digitale, le projet <strong>No Flop
+                            Studio</strong> a été fondé par <strong>Monsieur Yelo Joel</strong>. Notre studio se
+                        distingue par une approche scientifique de la création : chaque pixel et chaque mot sont
+                        optimisés pour la conversion.
+                    </p>
+
+                    <p>
+                        insuffler une vision où chaque création est pensée pour avoir un impact précis et mesurable
+                        sur le public, en éliminant complètement le hasard des processus de création. Grâce à nos
+                        protocoles "No Flop", nous garantissons que votre investissement créatif se transforme en
+                        résultats concrets.
+                        De cette vision rigoureuse est né <strong>YELOX</strong>, l'extension numérique de ce
+                        savoir-faire humain. En unissant l'expertise technique du fondateur au calcul exponentiel de
+                        l'intelligence artificielle, YELOX transforme la création de contenus et la gestion d'outils
+                        en des processus mathématiques rigoureux. Conçu pour optimiser la conversion et accroître la
+                        rentabilité, le noyau technologique garantit que chaque publication ou visuel atteigne ses
+                        objectifs avec précision.
+                    </p>
+
+                    <p>
+                        Aujourd'hui, No Flop Studio utilise cet écosystème technologique pour accompagner les
+                        entrepreneurs locaux, les créateurs de contenu et les e-commerçants. À travers des
+                        plateformes orientées vers l'avenir, telles que <em>YeloMusic</em> et <em>VendiPro</em>, le
+                        studio s'engage à offrir des outils digitaux accessibles, structurés et performants pour
+                        propulser chaque projet vers le succès, sans compromettre l'identité visuelle ni la
+                        créativité.
+                    </p>
+                </div>
+
+                <div class="pt-12 border-t border-gray-800/60 max-w-3xl mx-auto text-left">
+                    <h3 class="text-lg font-black tracking-wider uppercase text-white mb-8 text-center">Protocoles
+                        d'utilisation de l'IA (YELOX CORE)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="p-6 glass-card border border-green-500/10 rounded-2xl">
+                            <h4 class="font-bold text-green-400 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check"></i> Bonnes pratiques (À faire)
+                            </h4>
+                            <ul class="space-y-3 text-xs text-gray-400 leading-relaxed list-disc list-inside">
+                                <li><strong>Espacez vos requêtes :</strong> Attendez quelques secondes entre chaque
+                                    génération.</li>
+                                <li><strong>Regroupez vos idées :</strong> Utilisez des mots-clés précis pour un
+                                    résultat optimal.</li>
+                                <li><strong>Respectez les quotas :</strong> Utilisez 5 requêtes par jour pour
+                                    préserver les ressources globales du serveur.</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 glass-card border border-red-500/10 rounded-2xl">
+                            <h4 class="font-bold text-red-400 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-xmark"></i> Ce qu'il faut éviter
+                            </h4>
+                            <ul class="space-y-3 text-xs text-gray-400 leading-relaxed list-disc list-inside">
+                                <li><strong>Saturation :</strong> Évitez de surcharger l'API avec des requêtes vides
+                                    ou successives.</li>
+                                <li><strong>Improvisation :</strong> Ne laissez plus le hasard définir vos fiches
+                                    produits.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="faq" class="border-t border-gray-900 py-20">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="text-center space-y-4 mb-16">
+                    <span
+                        class="text-xs font-mono tracking-widest uppercase text-pink-500 bg-pink-500/10 px-3 py-1 rounded-full">
+                        Questions Fréquentes
+                    </span>
+                    <h2 class="text-3xl md:text-4xl font-black uppercase tracking-wider text-white pt-4">FAQ</h2>
+                    <p class="text-gray-400 text-xs max-w-2xl mx-auto leading-relaxed">
+                        Vous avez des questions sur le fonctionnement du noyau YELOX, de nos outils ou de nos
+                        protocoles de création ? Les réponses sont regroupées ci-dessous.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="p-6 glass-card rounded-2xl border border-pink-500/5">
+                        <h3 class="font-bold text-white mb-3 flex items-center gap-3">
+                            <span
+                                class="h-6 w-6 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center text-xs">Q1</span>
+                            Comment fonctionne l'outil de génération de texte YELOX ?
+                        </h3>
+                        <p class="text-xs text-gray-400 leading-relaxed pl-9">
+                            Le système utilise des technologies d'intelligence artificielle pour éliminer le hasard
+                            lors de la rédaction de vos descriptions. À partir du nom de votre produit et de la
+                            catégorie indiquée, le noyau génère des textes courts, percutants et structurés selon le
+                            template choisi. Il est pensé pour mettre en avant l'image de marque de vos projets sans
+                            laisser place à l'improvisation.
+                        </p>
+                    </div>
+
+                    <div class="p-6 glass-card rounded-2xl border border-pink-500/5">
+                        <h3 class="font-bold text-white mb-3 flex items-center gap-3">
+                            <span
+                                class="h-6 w-6 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center text-xs">Q2</span>
+                            Quelles sont les limites d'utilisation de l'API ?
+                        </h3>
+                        <p class="text-xs text-gray-400 leading-relaxed pl-9">
+                            Afin de garantir la stabilité et la pérennité de l'écosystème No Flop Studio,
+                            l'utilisation est soumise à des protocoles de protection. Chaque utilisateur dispose
+                            d'un quota de 5 requêtes par jour, tandis que l'ensemble du système est limité à 1 500
+                            requêtes globales par mois. Si vous atteignez ce quota, nous vous invitons à souscrire à
+                            nos futurs abonnements Premium.
+                        </p>
+                    </div>
+
+                    <div class="p-6 glass-card rounded-2xl border border-pink-500/5">
+                        <h3 class="font-bold text-white mb-3 flex items-center gap-3">
+                            <span
+                                class="h-6 w-6 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center text-xs">Q3</span>
+                            Qu'est-ce que la vision de No Flop Studio ?
+                        </h3>
+                        <p class="text-xs text-gray-400 leading-relaxed pl-9">
+                            Initié par Monsieur Yelo Joel, le studio a pour vocation de structurer le design et la
+                            communication digitale pour les entrepreneurs et créateurs, notamment à Abidjan.
+                            L'objectif est d'abandonner l'approximation et l'improvisation pour proposer des
+                            méthodes rigoureuses de markéting, du design graphique au développement d'applications
+                            de vente ou de plateformes de données.
+                        </p>
+                    </div>
+
+                    <div class="p-6 glass-card rounded-2xl border border-pink-500/5">
+                        <h3 class="font-bold text-white mb-3 flex items-center gap-3">
+                            <span
+                                class="h-6 w-6 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center text-xs">Q4</span>
+                            Comment installer l'application sur mon smartphone ?
+                        </h3>
+                        <p class="text-xs text-gray-400 leading-relaxed pl-9">
+                            L'outil est une Progressive Web App (PWA). Pour l'installer directement sur l'écran
+                            d'accueil de votre téléphone, appuyez sur l'icône de partage 📤 de votre navigateur,
+                            puis sélectionnez l'option "Sur l'écran d'accueil". Sur Android, vous pouvez également
+                            utiliser le bouton de téléchargement ou d'installation affiché sur la barre de
+                            navigation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        </div>
+        <section class="max-w-7xl mx-auto px-6 mb-20">
+            <div class="text-center space-y-4 mb-12">
+                <span
+                    class="text-xs font-mono tracking-widest uppercase text-pink-500 bg-pink-500/10 px-3 py-1 rounded-full">
+                    Espace Blog & Actualités
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-wider text-white pt-4">📝 Articles &
+                    Réflexions</h2>
+                <p class="text-gray-400 text-xs max-w-2xl mx-auto leading-relaxed">
+                    Retrouvez les dernières publications et les réflexions de No Flop Studio pour comprendre comment
+                    nous digitalisons vos projets sans laisser place au hasard.
+                </p>
+            </div>
+
+            <div id="blog" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div
+                    class="p-6 glass-card rounded-3xl flex flex-col justify-between border border-gray-900/50 bg-gradient-to-b from-gray-900/40 to-transparent">
+                    <div>
+                        <span class="text-xs text-pink-400 font-mono">15 Avril 2026</span>
+                        <h3 class="text-md font-bold text-white mt-3 mb-2">Comment YELOX redéfinit le design UX</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed mb-6">
+                            L'intelligence artificielle n'est plus une option mais un levier. Découvrez comment nous
+                            combinons nos protocoles de conception graphique avec la puissance de
+                            l'IA pour créer des interfaces fluides et performantes. L'objectif de cette démarche,
+                            supervisée par Monsieur Yelo Joel, est d'harmoniser l'esthétique visuelle avec une
+                            architecture de données rigoureuse pour une conversion optimale.
+                        </p>
+                    </div>
+                    <a href="#"
+                        class="text-xs font-mono text-pink-400 hover:text-pink-300 inline-flex items-center gap-2 pt-4 border-t border-gray-800/50">
+                        Lire l'article <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+
+                <div
+                    class="p-6 glass-card rounded-3xl flex flex-col justify-between border border-gray-900/50 bg-gradient-to-b from-gray-900/40 to-transparent">
+                    <div>
+                        <span class="text-xs text-pink-400 font-mono">02 Mars 2026</span>
+                        <h3 class="text-md font-bold text-white mt-3 mb-2">VendiPro : Créer sa micro-boutique</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed mb-6">
+                            Un guide étape par étape pour aider les e-commerçants locaux d'Abidjan à structurer leurs
+                            données, à mettre en place leurs canaux de vente digitaux et à simplifier efficacement le
+                            parcours d'achat du client, garantissant ainsi le succès de leurs opérations sans
+                            compromettre la créativité.
+                        </p>
+                    </div>
+                    <a href="#"
+                        class="text-xs font-mono text-pink-400 hover:text-pink-300 inline-flex items-center gap-2 pt-4 border-t border-gray-800/50">
+                        Lire l'article <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+
+                <div
+                    class="p-6 glass-card rounded-3xl flex flex-col justify-between border border-gray-900/50 bg-gradient-to-b from-gray-900/40 to-transparent">
+                    <div>
+                        <span class="text-xs text-pink-400 font-mono">18 Février 2026</span>
+                        <h3 class="text-md font-bold text-white mt-3 mb-2">YeloMusic : L'ère des créateurs</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed mb-6">
+                            L'importance de structurer ses données musicales à l'ère du numérique. Découvrez nos
+                            protocoles d'encodage et la protection de vos œuvres avec les standards légaux d'Abidjan
+                            pour offrir à chaque artiste un outil de distribution à la fois sécurisé, accessible et
+                            performant.
+                        </p>
+                    </div>
+                    <a href="#"
+                        class="text-xs font-mono text-pink-400 hover:text-pink-300 inline-flex items-center gap-2 pt-4 border-t border-gray-800/50">
+                        Lire l'article <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="border-t border-gray-900 py-20">
+            <div class="max-w-5xl mx-auto px-6 text-center">
+                <span
+                    class="text-xs font-mono tracking-widest uppercase text-pink-500 bg-pink-500/10 px-3 py-1 rounded-full">
+                    Nos Services
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-wider text-white pt-4 mb-12">🔥 Services
+                    Disponibles</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    <div
+                        class="p-6 glass-card rounded-2xl border border-pink-500/10 flex flex-col justify-between h-full bg-gradient-to-b from-gray-900/40 to-transparent">
+                        <div>
+                            <i class="fa-solid fa-wand-magic-sparkles text-2xl text-pink-400 mb-4"></i>
+                            <h3 class="font-bold text-white mb-2">Génération de Descriptions</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+                                Optimisez le parcours d'achat de vos clients e-commerce. Grâce au noyau YELOX, notre
+                                intelligence artificielle de pointe analyse vos produits et génère instantanément des
+                                fiches
+                                percutantes pour éliminer l'improvisation et garantir l'impact de chaque publication.
+                            </p>
+                        </div>
+                        <div>
+                            <span
+                                class="text-[9px] font-mono tracking-widest text-pink-500 uppercase bg-pink-500/5 px-2 py-0.5 rounded">Inclus
+                                dans YELOX Core</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="p-6 glass-card rounded-2xl border border-pink-500/10 flex flex-col justify-between h-full bg-gradient-to-b from-gray-900/40 to-transparent">
+                        <div>
+                            <i class="fa-solid fa-chart-line text-2xl text-pink-400 mb-4"></i>
+                            <h3 class="font-bold text-white mb-2">Stratégie de Marque</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+                                Identité visuelle, positionnement et storytelling. Ne laissez plus la croissance de vos
+                                réseaux sociaux au hasard. Bénéficiez de
+                                l'expertise de No Flop Studio pour convertir vos audiences en une communauté fidèle et
+                                engagée, structurée autour de valeurs fortes.
+                            </p>
+                        </div>
+                        <div>
+                            <span
+                                class="text-[9px] font-mono tracking-widest text-pink-500 uppercase bg-pink-500/5 px-2 py-0.5 rounded">Expertise
+                                Yelo Joel</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="p-6 glass-card rounded-2xl border border-pink-500/10 flex flex-col justify-between h-full bg-gradient-to-b from-gray-900/40 to-transparent">
+                        <div>
+                            <i class="fa-solid fa-code text-2xl text-pink-400 mb-4"></i>
+                            <h3 class="font-bold text-white mb-2">Développement & Micro-boutiques</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+                                Nous codons pour vendre. De la création de plateformes de diffusion comme
+                                <em>YeloMusic</em> à l'implémentation
+                                de micro-boutiques locales comme <em>VendiPro</em>, nous structurons vos données et vos
+                                plateformes pour en faire de véritables leviers digitaux.
+                            </p>
+                        </div>
+                        <div>
+                            <span
+                                class="text-[9px] font-mono tracking-widest text-pink-500 uppercase bg-pink-500/5 px-2 py-0.5 rounded">Solutions
+                                sur mesure</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="border-t border-gray-900/60 py-24">
+            <div class="max-w-2xl mx-auto px-6 text-center">
+                <div class="space-y-3 mb-10">
+                    <span
+                        class="text-xs font-mono tracking-widest uppercase text-pink-500 bg-pink-500/10 px-3 py-1 rounded-full">
+                        Contact & Support
+                    </span>
+                    <h2 class="text-3xl md:text-4xl font-black uppercase tracking-wider text-white pt-4">📩 Contact</h2>
+                </div>
+                <div class="flex flex-col items-center space-y-6 glass-card rounded-2xl p-8">
+                    <p class="text-sm text-gray-400 text-center leading-relaxed max-w-lg">
+                        Pour toute information, support technique ou demande de partenariat concernant l'écosystème
+                        <strong>No Flop Studio</strong> et le noyau <strong>YELOX Core</strong>, notre équipe reste à
+                        votre disposition. Nous nous engageons à répondre dans les plus brefs délais pour vous
+                        accompagner dans la digitalisation de vos projets.
+                    </p>
+
+                    <div class="w-full border-t border-gray-800/50 my-2"></div>
+
+                    <div class="flex flex-col items-center gap-4 mt-2 w-full">
+                        <div class="flex flex-col items-center gap-1">
+                            <span class="text-xs text-gray-500 font-mono">Assistance par message (WhatsApp uniquement)
+                                :</span>
+                            <a href="https://wa.me/2250586695114" target="_blank"
+                                class="text-lg md:text-xl font-black tracking-wider text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-3">
+                                <i class="fa-brands fa-whatsapp text-green-500 text-2xl"></i> +225 058 669 5114
+                            </a>
+                        </div>
+
+                        <div class="my-2 text-gray-600 text-xs font-mono">OU</div>
+
+                        <div class="flex flex-col items-center gap-1">
+                            <span class="text-xs text-gray-500 font-mono">Par courrier électronique :</span>
+                            <a href="mailto:no.flop.studio.ci@gmail.com"
+                                class="text-base md:text-lg font-black tracking-wider text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-3">
+                                <i class="fa-solid fa-envelope text-pink-500 text-xl"></i> noflopstudio@gmail.com
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-gray-800/50 w-full text-center">
+                        <span class="text-[10px] text-gray-600 font-mono">Développé et géré avec passion depuis Abidjan,
+                            Côte d'Ivoire.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-gray-900 py-12 bg-[#0b0f19]">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
+            <div
+                class="w-full border-b border-gray-800/50 pb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="text-center md:text-left space-y-1">
+                    <span class="text-xs font-mono tracking-widest uppercase text-pink-500">Partenaires &
+                        Sponsors</span>
+                    <h4 class="text-sm font-black text-white uppercase tracking-wider mt-1">Espace Publicitaire</h4>
+                </div>
+                <div class="flex flex-wrap items-center gap-4">
+                    <a href="https://wa.me/2250586695114" target="_blank"
+                        class="group relative block w-72 h-20 rounded-2xl overflow-hidden border border-pink-500/20 bg-[#131b2e]/60 hover:border-pink-500/50 transition-all duration-300">
+                        <div
+                            class="absolute inset-0 flex flex-col justify-center px-4 bg-gradient-to-r from-black/80 to-transparent">
+                            <span class="text-[9px] font-mono text-pink-400 uppercase tracking-wider">Sponsorisé</span>
+                            <span class="text-xs font-black text-white mt-0.5">Propulsez vos produits</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-xs text-gray-600 font-mono">&copy; 2026 No Flop Studio. Tous droits réservés.</div>
+        </div>
+    </footer>
+</body> <!-- ton contenu HTML au-dessus -->
+
+<script src="script.js"></script>
+</body>
+
+</html>
