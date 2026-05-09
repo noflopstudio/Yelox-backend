@@ -2,9 +2,9 @@
    CONFIGURATION & YELOX CORE FIXÉ
 ========================================== */
 
-// Ajoutez bien "/api/chat" à la fin de l'adresse
-const API_URL = "https://yelox-core-backend.onrender.com/api/chat";
 
+// On s'arrête au ".com" pour éviter les doublons plus bas dans le code
+const API_URL = "https://yelox-core-backend.onrender.com";
 /* ==========================================
    AUTHENTIFICATION
 ========================================== */
