@@ -12,68 +12,167 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// --- CONFIGURATION CORS ---
+/* ==========================================
+   CONFIG EXPRESS
+========================================== */
+
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
+
+/* ==========================================
+   CORS FIX
+========================================== */
+
 app.use(cors({
-    origin: "*", // Autorise toutes les sources pour le test
-    methods: ["GET", "POST"]
+    origin: "*",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.use(express.json());
+/* ==========================================
+   STATIC FILES
+========================================== */
+
 app.use(express.static(__dirname));
 
-const API_KEY = process.env.GEMINI_API_KEY || "AIzaSyAb8QQlPDOuP4j24CRJ1ZZ4xi8A-yRvTls";
+/* ==========================================
+   GEMINI API KEY
+========================================== */
+
+const API_KEY = process.env.GEMINI_API_KEY;
+
+if (!API_KEY) {
+    console.error("❌ GEMINI_API_KEY manquante dans Render.");
+}
+
+/* ==========================================
+   HOME
+========================================== */
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// --- ROUTE DE CHAT AVEC PERSONNALITÉ YELOX ---
-app.post("/api/chat", async (req, res) => {
-    try {
-        const message = req.body.message;
+/* ==========================================
+   API CHAT YELOX
+========================================== */
 
-        // Configuration de l'identité de l'IA
-        const systemInstruction = `Tu es YELOX, l'intelligence artificielle officielle de No Flop Studio. 
-        Ton créateur est Gnoumblei Joël Yelo, un Infographe polyvalent et entrepreneur basé à Abidjan.
-        Tu es un expert en design graphique (Photoshop, Illustrator, InDesign), montage vidéo (Filmora) et marketing digital. 
-        Ton but est d'aider les clients de l'agence et de promouvoir les services de No Flop Studio.
-        REGLÈS IMPORTANTES : 
-        1. Ne dis JAMAIS que tu es Gemini ou un modèle de Google.
-        2. Ton nom est YELOX.
-        3. Réponds avec professionnalisme et créativité.`;
+app.post("/api/chat", async (req, res) => {
+
+    try {
+
+        const { message, mode } = req.body;
+
+        if (!message) {
+            return res.status(400).json({
+                reply: "Message manquant."
+            });
+        }
+
+        console.log("📩 Message reçu :", message);
+
+        /* ==========================================
+           IDENTITÉ YELOX
+        ========================================== */
+
+        const systemInstruction = `
+Tu es YELOX, l’intelligence artificielle officielle de No Flop Studio.
+
+Ton créateur est Gnoumblei Joël Yelo.
+
+Tu es spécialisé en :
+- design graphique
+- branding
+- Photoshop
+- Illustrator
+- InDesign
+- montage vidéo
+- marketing digital
+- entrepreneuriat
+
+RÈGLES IMPORTANTES :
+1. Tu ne dis jamais que tu es Gemini.
+2. Ton nom est YELOX.
+3. Tu réponds avec professionnalisme.
+4. Tu aides les utilisateurs de No Flop Studio.
+5. Tu peux répondre en français et anglais.
+`;
+
+        /* ==========================================
+           APPEL GEMINI
+        ========================================== */
 
         const response = await fetch(
             `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`,
             {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({
                     contents: [
                         {
                             role: "user",
-                            parts: [{ text: `${systemInstruction}\n\nClient : ${message}` }]
+                            parts: [
+                                {
+                                    text: `${systemInstruction}\n\nUtilisateur : ${message}`
+                                }
+                            ]
                         }
                     ]
                 })
             }
         );
 
+        /* ==========================================
+           GESTION ERREUR API
+        ========================================== */
+
         if (!response.ok) {
-            return res.status(500).json({ error: "Erreur de communication avec le cerveau de YELOX" });
+
+            const errorText = await response.text();
+
+            console.error("❌ Gemini API Error:", errorText);
+
+            return res.status(500).json({
+                reply: "Erreur de connexion au cerveau YELOX."
+            });
         }
 
         const data = await response.json();
-        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-        res.json({ reply: reply || "YELOX réfléchit... réessayez dans un instant." });
+        console.log("✅ Réponse Gemini reçue");
+
+        const reply =
+            data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "YELOX n'a pas trouvé de réponse.";
+
+        /* ==========================================
+           ENVOI FRONTEND
+        ========================================== */
+
+        res.json({
+            reply
+        });
 
     } catch (error) {
-        console.error("❌ Erreur YELOX:", error);
-        res.status(500).json({ error: "YELOX est temporairement indisponible." });
+
+        console.error("❌ ERREUR SERVEUR :", error);
+
+        res.status(500).json({
+            reply: "YELOX est temporairement indisponible."
+        });
     }
 });
 
+/* ==========================================
+   PORT RENDER
+========================================== */
+
 const PORT = process.env.PORT || 10000;
+
 app.listen(PORT, () => {
+
     console.log(`✅ Serveur YELOX actif sur le port ${PORT}`);
+
 });

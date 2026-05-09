@@ -72,64 +72,113 @@ function ajouterHistorique(user, ia) {
    API CHAT YELOX - VERSION CORRIGÉE
 ========================================== */
 async function envoyerRequeteComplete() {
-    const input = document.getElementById('userInput');
-    const output = document.getElementById('testOutput');
-    const loader = document.getElementById('yeloxLoader');
-    const resultContainer = document.getElementById('resultContainer');
-    const wrapper = document.getElementById('outputWrapper');
+
+    const input = document.getElementById("userInput");
+    const output = document.getElementById("testOutput");
+    const loader = document.getElementById("yeloxLoader");
+    const resultContainer = document.getElementById("resultContainer");
+    const wrapper = document.getElementById("outputWrapper");
 
     if (!input || !output || !loader) return;
 
-    const message = input.value;
-    if (!message.trim()) return;
+    const message = input.value.trim();
 
-    // Affiche le conteneur et le loader immédiatement
-    resultContainer?.classList.remove('hidden');
-    loader.classList.remove('hidden');
-    output.innerText = "YELOX réfléchit..."; // Message d'attente
+    if (!message) return;
+
+    /* ==========================================
+       AFFICHAGE LOADER
+    ========================================== */
+
+    resultContainer?.classList.remove("hidden");
+
+    if (wrapper) {
+        wrapper.style.display = "block";
+    }
+
+    loader.classList.remove("hidden");
+
+    output.innerText = "YELOX réfléchit...";
+    output.style.color = "white";
 
     try {
-        // --- ÉTAPE CRUCIALE : L'APPEL AU SERVEUR (Tu l'avais oublié !) ---
+
+        /* ==========================================
+           FETCH API
+        ========================================== */
+
         const res = await fetch(`${API_URL}/api/chat`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({
-                message: message,
+                message,
                 mode: window.currentMode || "rapide"
             })
         });
 
+        /* ==========================================
+           ERREUR SERVEUR
+        ========================================== */
+
+        if (!res.ok) {
+
+            throw new Error(`Erreur serveur : ${res.status}`);
+        }
+
+        /* ==========================================
+           JSON SAFE
+        ========================================== */
+
         const data = await res.json();
 
-        // 1. On injecte la réponse
-        output.innerText = data.reply;
+        const reply =
+            data.reply ||
+            "YELOX n'a pas trouvé de réponse.";
 
-        // 2. FORCE l'affichage visuel (Blanc sur Noir)
-        if (resultContainer) {
-            resultContainer.style.display = "block";
-            resultContainer.classList.remove('hidden');
-        }
-        if (wrapper) wrapper.style.display = "block";
+        /* ==========================================
+           AFFICHAGE RÉPONSE
+        ========================================== */
 
-        output.style.color = "white"; // Force le texte en blanc
-        output.classList.remove('text-gray-400');
-        output.classList.add('text-white');
+        output.innerText = reply;
 
-        // 3. Actions sonores et historique
+        output.classList.remove("text-gray-400");
+        output.classList.add("text-white");
+
+        /* ==========================================
+           HISTORIQUE
+        ========================================== */
+
+        ajouterHistorique(message, reply);
+
+        /* ==========================================
+           AUDIO
+        ========================================== */
+
         jouerSonYelox();
-        lireReponseAuto(data.reply);
-        ajouterHistorique(message, data.reply);
+
+        lireReponseAuto(reply);
+
+        /* ==========================================
+           RESET INPUT
+        ========================================== */
+
+        input.value = "";
 
     } catch (err) {
-        console.error("Erreur YELOX:", err);
-        output.innerText = "Erreur de connexion au serveur.";
+
+        console.error("❌ Erreur YELOX :", err);
+
+        output.innerText =
+            "Impossible de contacter YELOX.";
+
         output.style.color = "red";
+
     } finally {
-        // Cache le loader une fois terminé
-        loader.classList.add('hidden');
+
+        loader.classList.add("hidden");
     }
 }
-
 /* ==========================================
    VOIX IA YELOX CORE (FR + EN + 5 VOIX)
 ========================================== */
