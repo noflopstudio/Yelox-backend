@@ -1,9 +1,8 @@
-
 /* ==========================================
-   CONFIGURATION UNIQUE (MISE À JOUR)
-========================================== */
+   CONFIGURATION UNIQUE (CORRIGÉE)
+========================================= */
 if (typeof API_URL === 'undefined') {
-    // On utilise le nom exact vu sur ton tableau de bord Render
+    // Utilisation de l'URL confirmée sur ton dashboard Render
     var API_URL = "https://yelox-backend.onrender.com";
 }
 
@@ -32,7 +31,7 @@ function seConnecter() {
 /* ==========================================
    MODE & HISTORIQUE
 ========================================== */
-window.currentMode = "rapide"; // Mode par défaut
+window.currentMode = "rapide";
 
 function setMode(mode) {
     window.currentMode = mode;
@@ -82,7 +81,11 @@ async function envoyerRequeteComplete() {
     output.style.color = "white";
 
     try {
-        const res = await fetch(`${API_URL}/api/chat`, {
+        // Construction de l'URL propre
+        const targetUrl = `${API_URL}/api/chat`;
+        console.log("🚀 Envoi vers :", targetUrl);
+
+        const res = await fetch(targetUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -109,7 +112,7 @@ async function envoyerRequeteComplete() {
 
     } catch (err) {
         console.error("❌ Erreur YELOX :", err);
-        output.innerText = "Connexion perdue avec le Core YELOX. Vérifiez votre backend.";
+        output.innerText = "Connexion impossible. Vérifie que ton serveur Render est bien actif (pas en veille).";
         output.style.color = "#ff4d4d";
     } finally {
         loader.classList.add("hidden");
@@ -122,7 +125,7 @@ document.getElementById("userInput")?.addEventListener("keypress", (e) => {
 });
 
 /* ==========================================
-   VOIX & AUDIO
+   VOIX & AUDIO (VERSION NETTOYÉE)
 ========================================== */
 function obtenirVoix() {
     return new Promise(resolve => {
@@ -134,22 +137,12 @@ function obtenirVoix() {
 
 async function lireReponseAuto(texte) {
     if (!texte) return;
-
-    // Stop toute lecture en cours
     window.speechSynthesis.cancel();
-
     const voices = await obtenirVoix();
     const utterance = new SpeechSynthesisUtterance(texte);
-
-    // Priorité à une voix française de qualité
     const frVoices = voices.filter(v => v.lang.includes("fr"));
     utterance.voice = frVoices.find(v => v.name.includes("Google")) || frVoices[0] || voices[0];
-
     utterance.lang = "fr-FR";
-    utterance.pitch = 1.0;
-    utterance.rate = 1.0;
-
-    console.log("🎙️ YELOX lecture start");
     window.speechSynthesis.speak(utterance);
 }
 
@@ -159,35 +152,6 @@ function jouerSonYelox() {
         audio.volume = 0.2;
         audio.play();
     } catch (e) {
-        console.log("Audio bloqué par le navigateur.");
+        console.log("Audio bloqué.");
     }
-}
-/* ==========================================
-   VOIX & AUDIO
-========================================== */
-let voixActuelle = "auto";
-
-async function obtenirVoix() {
-    return new Promise(resolve => {
-        let voices = window.speechSynthesis.getVoices();
-        if (voices.length > 0) return resolve(voices);
-        window.speechSynthesis.onvoiceschanged = () => resolve(window.speechSynthesis.getVoices());
-    });
-}
-
-async function lireReponseAuto(texte) {
-    if (!texte) return;
-    window.speechSynthesis.cancel();
-    const voices = await obtenirVoix();
-    const utterance = new SpeechSynthesisUtterance(texte);
-    const frVoices = voices.filter(v => v.lang.includes("fr"));
-    utterance.voice = frVoices[0] || voices[0];
-    utterance.lang = "fr-FR";
-    window.speechSynthesis.speak(utterance);
-}
-
-function jouerSonYelox() {
-    const audio = new Audio("https://www.myinstants.com/media/sounds/success.mp3");
-    audio.volume = 0.3;
-    audio.play();
 }
