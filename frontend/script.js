@@ -1,10 +1,10 @@
 /* ==========================================
    CONFIGURATION UNIQUE (CORRIGÉE)
 ========================================= */
-if (typeof API_URL === 'undefined') {
-    // Utilisation de l'URL confirmée sur ton dashboard Render
-    var API_URL = "https://yelox-backend.onrender.com";
-}
+// On utilise une seule déclaration propre pour éviter les erreurs de syntaxe
+var API_URL = "https://yelox-backend.onrender.com/api/chat";
+
+console.log("🚀 YELOX CORE : Configuration chargée.");
 
 /* ==========================================
    AUTHENTIFICATION
@@ -81,11 +81,10 @@ async function envoyerRequeteComplete() {
     output.style.color = "white";
 
     try {
-        // Construction de l'URL propre
-        const targetUrl = `${API_URL}/api/chat`;
-        console.log("🚀 Envoi vers :", targetUrl);
+        // Envoi vers l'URL configurée
+        console.log("📡 Envoi vers :", API_URL);
 
-        const res = await fetch(targetUrl, {
+        const res = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -99,7 +98,7 @@ async function envoyerRequeteComplete() {
         if (!res.ok) throw new Error(`Erreur serveur : ${res.status}`);
 
         const data = await res.json();
-        const reply = data.reply || "YELOX n'a pas trouvé de réponse.";
+        const reply = data.reply || "Je n'ai pas pu formuler de réponse.";
 
         // Affichage du résultat
         output.innerText = reply;
@@ -112,7 +111,7 @@ async function envoyerRequeteComplete() {
 
     } catch (err) {
         console.error("❌ Erreur YELOX :", err);
-        output.innerText = "Connexion impossible. Vérifie que ton serveur Render est bien actif (pas en veille).";
+        output.innerText = "Connexion impossible. Vérifie que ton serveur Render est bien actif.";
         output.style.color = "#ff4d4d";
     } finally {
         loader.classList.add("hidden");
@@ -125,7 +124,7 @@ document.getElementById("userInput")?.addEventListener("keypress", (e) => {
 });
 
 /* ==========================================
-   VOIX & AUDIO (VERSION NETTOYÉE)
+   VOIX & AUDIO
 ========================================== */
 function obtenirVoix() {
     return new Promise(resolve => {
@@ -152,6 +151,6 @@ function jouerSonYelox() {
         audio.volume = 0.2;
         audio.play();
     } catch (e) {
-        console.log("Audio bloqué.");
+        console.log("Audio bloqué par le navigateur.");
     }
 }
